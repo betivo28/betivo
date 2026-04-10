@@ -257,6 +257,13 @@
       font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
       color: var(--gold); letter-spacing: -0.02em;
       flex-shrink: 0;
+      overflow: hidden;
+      padding: 8px;
+    }
+    .casino-logo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .casino-info { min-width: 0; }
@@ -318,7 +325,16 @@
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; color: var(--gold);
+      overflow: hidden;
+      padding: 6px;
+      flex-shrink: 0;
     }
+    .review-icon img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
     .review-card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 2px; }
     .review-card .score { font-size: 0.85rem; color: var(--gold); font-weight: 600; }
 
@@ -577,7 +593,7 @@
         <div class="casino-card top">
           <div class="featured-badge">⭐ Editor's Pick</div>
           <div class="casino-rank">1</div>
-          <div class="casino-logo-wrap">GDM</div>
+          <div class="casino-logo-wrap"><img src="gamdom.png" alt="Gamdom" /></div>
           <div class="casino-info">
             <div class="casino-name">Gamdom</div>
             <div class="casino-tags">
@@ -602,7 +618,7 @@
         <!-- #2 BC.Game -->
         <div class="casino-card">
           <div class="casino-rank">2</div>
-          <div class="casino-logo-wrap">BCG</div>
+          <div class="casino-logo-wrap"><img src="bcgame.png" alt="BC.Game" /></div>
           <div class="casino-info">
             <div class="casino-name">BC.Game</div>
             <div class="casino-tags">
@@ -627,7 +643,7 @@
         <!-- #3 Rainbet -->
         <div class="casino-card">
           <div class="casino-rank">3</div>
-          <div class="casino-logo-wrap">RBT</div>
+          <div class="casino-logo-wrap"><img src="rainbet.png" alt="Rainbet" /></div>
           <div class="casino-info">
             <div class="casino-name">Rainbet</div>
             <div class="casino-tags">
@@ -675,7 +691,7 @@
         <!-- Gamdom Review -->
         <div class="review-card">
           <div class="review-card-header">
-            <div class="review-icon">GDM</div>
+            <div class="review-icon"><img src="gamdom.png" alt="Gamdom" /></div>
             <div>
               <h3>Gamdom Review</h3>
               <div class="score">⭐ 9.7 / 10 — Editor's Pick</div>
@@ -702,7 +718,7 @@
         <!-- BC.Game Review -->
         <div class="review-card">
           <div class="review-card-header">
-            <div class="review-icon">BCG</div>
+            <div class="review-icon"><img src="bcgame.png" alt="BC.Game" /></div>
             <div>
               <h3>BC.Game Review</h3>
               <div class="score">⭐ 9.4 / 10 — Top Rated</div>
@@ -729,7 +745,7 @@
         <!-- Rainbet Review -->
         <div class="review-card">
           <div class="review-card-header">
-            <div class="review-icon">RBT</div>
+            <div class="review-icon"><img src="rainbet.png" alt="Rainbet" /></div>
             <div>
               <h3>Rainbet Review</h3>
               <div class="score">⭐ 9.1 / 10 — Recommended</div>
