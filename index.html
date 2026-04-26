@@ -56,6 +56,7 @@
       --green: #22c55e;
       --red: #ef4444;
       --accent: #d4a843;
+      --topborder: var(--green);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -217,6 +218,21 @@
 
     /* ─── CASINO CARDS ─── */
     .casino-grid { display: grid; gap: 20px; margin-top: 48px; }
+
+    .casino-card.top {
+      background: var(--card);
+      border: 1px solid rgba(212,168,67,0.4);
+      border-radius: 14px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 24px;
+      align-items: center;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 50px 1px rgba(212,168,67,0.4);
+    }
 
     .casino-card {
       background: var(--card);
@@ -513,6 +529,53 @@
 
     .anim { opacity: 0; transform: translateY(24px); transition: opacity .5s, transform .5s; }
     .anim.in { opacity: 1; transform: none; }
+
+    /* ─── GAMDOM POPUP ─── */
+    .popup-widget {
+      position: fixed; bottom: 28px; right: 28px;
+      background: var(--card);
+      border: 1px solid rgba(0, 255, 55, 0.35);
+      border-radius: 14px;
+      padding: 16px 18px;
+      z-index: 9999;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      max-width: 280px;
+      animation: popupIn .4s ease;
+    }
+    @keyframes popupIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .popup-widget.hidden { display: none; }
+    .popup-logo {
+      width: 48px; height: 48px;
+      border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .popup-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .popup-body { flex: 1; min-width: 0; }
+    .popup-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; color: #fff; margin-bottom: 2px; }
+    .popup-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
+    .popup-btn {
+      display: block;
+      background: var(--gold); color: #000;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.78rem; padding: 7px 14px;
+      border-radius: 6px; text-align: center;
+      transition: background .2s;
+    }
+    .popup-btn:hover { background: var(--gold-light); color: #000; }
+    .popup-close {
+      position: absolute; top: 8px; right: 10px;
+      background: none; border: none;
+      color: var(--muted); font-size: 1rem;
+      cursor: pointer; line-height: 1;
+    }
+    .popup-close:hover { color: #fff; }
   </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GVX0S5JLB"></script>
@@ -1266,5 +1329,16 @@
     });
   });
 </script>
+
+<!-- ─── GAMDOM POPUP ─── -->
+<div class="popup-widget" id="gamdomPopup">
+  <button class="popup-close" onclick="document.getElementById('gamdomPopup').classList.add('hidden')">✕</button>
+  <div class="popup-logo"><img src="gamdom.png" alt="Gamdom" /></div>
+  <div class="popup-body">
+    <div class="popup-title">Gamdom</div>
+    <div class="popup-sub">Up to 15% Rakeback 🎰</div>
+    <a href="./gamdom/" target="_blank" rel="noopener sponsored" class="popup-btn">Claim Bonus →</a>
+  </div>
+</div>
 </body>
 </html>
