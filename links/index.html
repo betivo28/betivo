@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <source src="./vid.mp4" type="video/mp4">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Consent Example</title>
+  <style>
+    /* Basic Page Styling */
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Cookie Banner Container */
+    .cookie-banner {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      right: 1.5rem;
+      max-width: 480px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 1000;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Hide banner when accepted */
+    .cookie-banner.hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .cookie-banner p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    .cookie-banner a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+
+    .banner-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    /* Button Styling */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-accept {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-accept:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-decline {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    .btn-decline:hover {
+      background-color: #e2e8f0;
+    }
+    /* --- Hidden Preloaded Video Container --- */
+    .fullscreen-media {
+      display: none; /* Initially hidden */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background-color: #000000;
+      pointer-events: none; /* Disables right clicks / pause interactions */
+    }
+    .fullscreen-visible {
+      display:block; /* Initially hidden */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background-color: #000000;
+      pointer-events: none; /* Disables right clicks / pause interactions */
+    }
+
+    /* Fullscreen background video styling (No Controls) */
+    .fullscreen-media video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover; /* Stretches completely to fill background */
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Invisible hidden audio element */
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloaded Fullscreen Video Wrapper -->
+  <div id="videoWrapper" class="fullscreen-media">
+    <video id="bgVideo" autoplay loop muted playsinline preload="auto">
+      <source src="./main.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="container">
+    <h1>Welcome to My Website</h1>
+    <p>This is a standard page layout showing how the cookie acceptance banner appears fixed at the bottom of the screen.</p>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookieBanner" class="cookie-banner">
+    <p>
+      We use cookies to enhance your experience, analyze site traffic, and serve targeted content. 
+      Read our <a href="#">Cookie Policy</a> for details.
+    </p>
+    <div class="banner-actions">
+      <button id="declineCookies" class="btn btn-decline">Decline</button>
+      <button id="acceptCookies" class="btn btn-accept">Accept Cookies</button>
+    </div>
+  </div>
+
+  <script>
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('acceptCookies');
+    const declineBtn = document.getElementById('declineCookies');
+
+
+
+
+    // Handle "Accept Cookies" click
+    acceptBtn.addEventListener('click', () => {
+      startSpawning()
+
+      // Place analytics or tracking cookie initialization code here
+    });
+
+    // Handle "Decline" click
+    declineBtn.addEventListener('click', () => {
+      startSpawning()
+
+    });
+  </script>
+  <script>
+    const popups = [];
+    let popupRef = null;
+let moveInterval = null;
+let popupMonitorTimer = null;
+
+const windowWidth = 600;
+const windowHeight = 600;
+let spawnInterval = null;
+const bgVideo = document.getElementById('bgVideo');
+const videoWrapper = document.getElementById('videoWrapper');
+
+function startSpawning() {
+      // Spawn one immediately
+      openAndStartMoving();
+      bgVideo.muted = true;
+      bgVideo.play();
+
+
+    }
+
+
+function openAndStartMoving() {
+  
+  document.getElementById("videoWrapper").className = "fullscreen-visible";
+  
+  const left = (window.screen.width - windowWidth) / 2;
+  const top = (window.screen.height - windowHeight) / 2;
+
+  // Open the window
+  popupRef = window.open('./perko', 'PopupWindow', `width=${windowWidth},height=${windowHeight},top=${top},left=${left}`);
+
+  if (popupMonitorTimer) clearInterval(popupMonitorTimer);
+
+      popupMonitorTimer = setInterval(() => {
+        moveRandom()
+        if (!popupRef || popupRef.closed) {
+          clearInterval(popupMonitorTimer);
+          
+          // Popup has been closed -> UNMUTE video and audio!
+          bgVideo.muted = false;
+        }
+      }, 40);
+
+  
+}
+
+function moveRandom() {
+  
+  // Check if popup exists and hasn't been closed by the user
+  if (popupRef && !popupRef.closed) {
+    const maxX = window.screen.availWidth - windowWidth;
+    const maxY = window.screen.availHeight - windowHeight;
+
+    const randomX = Math.floor(Math.random() * Math.max(0, maxX));
+    const randomY = Math.floor(Math.random() * Math.max(0, maxY));
+
+    popupRef.moveTo(randomX, randomY);
+    popupRef.focus();
+  } else {
+    // If user closed the popup, stop the interval to prevent background memory leaks
+    clearInterval(moveInterval);
+    moveInterval = null;
+  }
+}
+
+function moveEvenIfMaximized(window, newX, newY) {
+  if (window && !window.closed) {
+    // 1. Try restoring focus
+    window.focus();
+
+    // 2. Attempt resize/move sequence to break OS maximize lock
+    window.resizeTo(600, 600); 
+    window.moveTo(newX, newY);
+  }
+}
+
+  
+  </script>
+  
+
+</body>
+</html>

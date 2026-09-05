@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Window RGB Media</title>
+  <style>
+    /* Reset screen margins & hide scrollbars */
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #000000;
+    }
+
+    /* Outer Wrapper filling the entire window */
+    .fullscreen-rgb-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      /* Thick 25px border around the outer screen edge */
+      padding: 25px; 
+      background: linear-gradient(
+        45deg,
+        #ff0000, #ff7300, #fffb00, #48ff00,
+        #00ffd5, #002bfd, #7a00ff, #ff00c8, #ff0000
+      );
+      background-size: 300% 300%;
+      /* Fast 1.2s infinite loop */
+      animation: fastRgbGlow 1.2s linear infinite;
+    }
+
+    /* Intense ambient glow around the whole display window */
+    .fullscreen-rgb-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      background-size: inherit;
+      filter: blur(35px);
+      opacity: 0.9;
+      z-index: 1;
+      animation: fastRgbGlow 1.2s linear infinite;
+    }
+
+    @keyframes fastRgbGlow {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Video element filling 100% of inner frame */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      background: #000000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Stretches/fills entire window without black bars */
+      display: block;
+    }
+
+    /* Audio element hidden entirely */
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="fullscreen-rgb-wrapper">
+    <div class="video-container">
+      <video autoplay loop muted playsinline>
+        <source src="./vid.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Hidden Audio Player -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="nuke.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('bgAudio');
+
+    // Attempt autoplay immediately
+    const startAudio = () => {
+      audio.play().catch(() => {
+        // Fallback: If browser blocks audio autoplay, start sound on first click anywhere
+        const handleUserGesture = () => {
+          audio.play();
+          document.removeEventListener('click', handleUserGesture);
+          document.removeEventListener('keydown', handleUserGesture);
+        };
+        document.addEventListener('click', handleUserGesture);
+        document.addEventListener('keydown', handleUserGesture);
+      });
+    };
+
+    window.addEventListener('DOMContentLoaded', startAudio);
+  </script>
+
+</body>
+</html>
